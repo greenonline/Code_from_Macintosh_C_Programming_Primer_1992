@@ -1,4 +1,5 @@
-#define kBaseResID 128 #define kMoveToFront (WindowPtr) - 1L 
+#define kBaseResID 128
+#define kMoveToFront (WindowPtr) - 1L 
 #define kEmptyString "\p"
 #define kNilFilterProc nil
 #define kErrorAlertID kBaseResID
@@ -6,7 +7,7 @@
 /***************/ 
 /* Functions */ 
 /***************/
- 
+
 void ToolBoxInit( void);
 void WindowInit( void);
 void MainLoop( void);
@@ -48,20 +49,20 @@ void MainLoop( void ){
 
   clipHandle= NewHandle( 0 ); 
   window= FrontWindow();
-  if ( ( length= GetScrap( clipHandle, 'TEXT', &offs~t ))<0){
+  if ( ( length= GetScrap( clipHandle, 'TEXT', &offset ))<0){
     if ( GetScrap( clipHandle, 'PICT', &offset ) < 0 ) 
-      DoError("\pThere's no PICT and no text in the scrap..." , true};
+      DoError("\pThere's no PICT and no text in the scrap..." , true);
     else{
-      pictureRect = window->portRect; CenterPict( (PicHandle}clipHandle,
-&pictureRect ); 
+      pictureRect = window->portRect; 
+      CenterPict( (PicHandle)clipHandle, &pictureRect ); 
       DrawPicture( (PicHandle)clipHandle, &pictureRect );
     }
   } else{
-    HLock( clipHandle };
+    HLock( clipHandle );
     TextBox( *clipHandle, length, &(window->portRect), teJustLeft);
-    HUnlock( clipHandle };
+    HUnlock( clipHandle );
   }
-  while ( !Button(} )
+  while ( !Button() );
 }
 
 /****************** CenterPict ********************/
@@ -69,7 +70,7 @@ void CenterPict( PicHandle picture, Rect *destRectPtr){
   Rect windRect, pictRect;
 
   windRect = *destRectPtr;
-  pictRect = (**(picture }) .picFrame;
+  pictRect = (**(picture )) .picFrame;
   OffsetRect( &pictRect, windRect.left - pictRect.left,
   windRect.top - pictRect.top); OffsetRect( &pictRect, (windRect.right - pictRect.right)/2, (windRect.bottom - pictRect.bottom)/2); 
   *destRectPtr =pictRect;
